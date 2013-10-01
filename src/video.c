@@ -55,8 +55,10 @@ static Uint32 SDL_VIDEO_Flags =
 
 static const SDL_VideoInfo *info;
 
-static SDL_Overlay * video_init(void *data, SDL_Surface **pscreen)
-{
+static SDL_Overlay * video_init(
+    void *data, 
+    SDL_Surface **pscreen
+) {
     struct ALL_DATA *all_data = (struct ALL_DATA *) data;
     struct GLOBAL *global = all_data->global;
 
@@ -74,7 +76,7 @@ static SDL_Overlay * video_init(void *data, SDL_Surface **pscreen)
         }
 
         /* For this version, we will use hardware acceleration as default*/
-        if(global->hwaccel)
+        if(global->hwaccel) // set global environmental variables if hw accel available
         {
             if ( ! getenv("SDL_VIDEO_YUV_HWACCEL") ) putenv("SDL_VIDEO_YUV_HWACCEL=1");
             if ( ! getenv("SDL_VIDEO_YUV_DIRECT") ) putenv("SDL_VIDEO_YUV_DIRECT=1");
@@ -84,20 +86,22 @@ static SDL_Overlay * video_init(void *data, SDL_Surface **pscreen)
             if ( ! getenv("SDL_VIDEO_YUV_HWACCEL") ) putenv("SDL_VIDEO_YUV_HWACCEL=0");
             if ( ! getenv("SDL_VIDEO_YUV_DIRECT") ) putenv("SDL_VIDEO_YUV_DIRECT=0");
         }
+        
 
+        // print the name of the video driver if debugging
         if (SDL_VideoDriverName(driver, sizeof(driver)) && global->debug)
         {
             g_print("Video driver: %s\n", driver);
         }
 
-        info = SDL_GetVideoInfo();
-
+        info = SDL_GetVideoInfo(); // get camera info
+        
         if (info->wm_available && global->debug) g_print("A window manager is available\n");
 
         if (info->hw_available)
         {
             if (global->debug)
-                g_print("Hardware surfaces are available (%dK video memory)\n", info->video_mem);
+              g_print("Hardware surfaces are available (%dK video memory)\n", info->video_mem);
 
             SDL_VIDEO_Flags |= SDL_HWSURFACE;
             SDL_VIDEO_Flags |= SDL_DOUBLEBUF;
@@ -159,7 +163,7 @@ static SDL_Overlay * video_init(void *data, SDL_Surface **pscreen)
         g_print("Resizing to %ix%i\n", width, height);
 
     }
-    else
+    else // success:
     {
         g_print("OK \n");
         if ((bpp != 32) && global->debug) g_print("recomended color depth = %i\n", bpp);

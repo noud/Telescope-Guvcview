@@ -365,17 +365,24 @@ file_chooser (GtkWidget * FileButt, struct ALL_DATA *all_data)
 				}
 			}
 
-			if(global->vid_inc>0)
+			if(0 && global->vid_inc>0)
 			{
-				uint64_t suffix = get_file_suffix(global->vidFPath[1], global->vidFPath[0]);
+				//uint64_t suffix = get_file_suffix(global->vidFPath[1], global->vidFPath[0]);
+        //
+        uint64_t suffix = 1; // NOTE: used this to overwrite each saved image
+                             // file instead of saving each frame to a unique file
+                             // name. Instead of above. 
+                             //
 				fprintf(stderr, "Video file suffix detected: %" PRIu64 "\n", suffix);
 				if(suffix >= G_MAXUINT64)
 				{
 					global->vidFPath[0] = add_file_suffix(global->vidFPath[0], suffix);
 					suffix = 0;
 				}
-				if(suffix >= 0)
-					global->vid_inc = suffix + 1;
+				if(suffix >= 0) {
+					//global->vid_inc = suffix + 1; // see comment above
+					global->vid_inc = suffix;
+        }
 			}
 		}
 	}
@@ -418,17 +425,19 @@ file_chooser (GtkWidget * FileButt, struct ALL_DATA *all_data)
 			/*get the file type*/
 			global->imgFormat = check_image_type(global->imgFPath[0]);
 
-			if(global->image_inc>0)
+			if(0 &&  global->image_inc>0)
 			{
-				uint64_t suffix = get_file_suffix(global->imgFPath[1], global->imgFPath[0]);
+				//uint64_t suffix = get_file_suffix(global->imgFPath[1], global->imgFPath[0]);
+        uint64_t suffix = 0;
 				fprintf(stderr, "Image file suffix detected: %" PRIu64 "\n", suffix);
 				if(suffix >= G_MAXUINT64)
 				{
 					global->imgFPath[0] = add_file_suffix(global->imgFPath[0], suffix);
 					suffix = 0;
 				}
-				if(suffix >= 0)
-					global->image_inc = suffix + 1;
+				if(suffix >= 0) {
+					//global->image_inc = suffix + 1;
+        }
 			}
 
 		}
@@ -1681,17 +1690,19 @@ image_prefix_toggled(GtkWidget * toggle, struct ALL_DATA *all_data)
 
 	global->image_inc = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(toggle)) ? 1 : 0;
 
-	if(global->image_inc > 0)
+	if(0 && global->image_inc > 0)
 	{
-		uint64_t suffix = get_file_suffix(global->imgFPath[1], global->imgFPath[0]);
+		//uint64_t suffix = get_file_suffix(global->imgFPath[1], global->imgFPath[0]);
+		uint64_t suffix = 1;
 		fprintf(stderr, "Image file suffix detected: %" PRIu64 "\n", suffix);
 		if(suffix >= G_MAXUINT64)
 		{
 			global->imgFPath[0] = add_file_suffix(global->imgFPath[0], suffix);
 			suffix = 0;
 		}
-		if(suffix >= 0)
-			global->image_inc = suffix + 1;
+		if(suffix >= 0) {
+			//global->image_inc = suffix + 1;
+    }
 	}
 
 	global = NULL;
@@ -1706,17 +1717,19 @@ video_prefix_toggled(GtkWidget * toggle, struct ALL_DATA *all_data)
 
 	global->vid_inc = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(toggle)) ? 1 : 0;
 
-	if(global->vid_inc > 0)
+	if(0 && global->vid_inc > 0)
 	{
-		uint64_t suffix = get_file_suffix(global->vidFPath[1], global->vidFPath[0]);
+		//uint64_t suffix = get_file_suffix(global->vidFPath[1], global->vidFPath[0]);
+		uint64_t suffix = 1;
 		fprintf(stderr, "Video file suffix detected: %" PRIu64 "\n", suffix);
 		if(suffix >= G_MAXUINT64)
 		{
 			global->vidFPath[0] = add_file_suffix(global->vidFPath[0], suffix);
 			suffix = 0;
 		}
-		if(suffix >= 0)
-			global->vid_inc = suffix + 1;
+		if(suffix >= 0) {
+			// global->vid_inc = suffix + 1;
+    }
 	}
 
 	global = NULL;
@@ -1744,7 +1757,7 @@ capture_image (GtkButton *ImageButt, struct ALL_DATA *all_data)
 			global->imgFPath,
 			global->image_inc);
 
-		global->image_inc++;
+		//global->image_inc++;
 	}
 	else
 	{

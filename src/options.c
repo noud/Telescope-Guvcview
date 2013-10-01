@@ -942,8 +942,9 @@ readOpts(int argc,char *argv[], struct GLOBAL *global)
 				global->imgFPath[0] = add_file_suffix(global->imgFPath[0], suffix);
 				suffix = 0;
 			}
-			if(suffix > 0)
+			if(suffix > 0) {
 				global->image_inc = suffix + 1;
+      }
 		}
 	}
 	if(global->image_timer > 0 )

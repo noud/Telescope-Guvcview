@@ -104,10 +104,11 @@ Image_capture_timer(gpointer data)
 			g_free(message);
     	}
     
-    	global->image_inc++;
-    }
-    else
+    	//global->image_inc++;
+    } 
+    else {
     	videoIn->ImageFName = joinPath(videoIn->ImageFName, global->imgFPath);
+    }
     
     videoIn->capImage = TRUE;
 

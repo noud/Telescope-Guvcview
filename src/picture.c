@@ -27,10 +27,13 @@
 #include <glib/gprintf.h>
 #include <png.h>
 
+
 /*----------------------------------- Image Files ----------------------------*/ 
 int 
 SaveJPG(const char *Filename,int imgsize,BYTE *ImagePix) 
 {
+  const char *JPEG_FILE_NAME = Filename;
+
 	int ret=0;
 	int jpgsize=0;
 	BYTE *jpgtmp=NULL;
@@ -104,7 +107,7 @@ SaveJPG(const char *Filename,int imgsize,BYTE *ImagePix)
 		
 		int totSize = Pjpg - jpgtmp;
 	
-		if ((fp = fopen(Filename,"wb"))!=NULL) 
+		if ((fp = fopen(JPEG_FILE_NAME /*Filename*/,"wb"))!=NULL) 
 		{
 			ret=fwrite(jpgtmp,totSize,1,fp);/*jpeg - jfif*/
 			if (ret< 1) ret=1; //write error 

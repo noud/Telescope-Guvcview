@@ -1062,10 +1062,12 @@ int uvcGrab(struct vdIn *vd, int format, int width, int height, int *fps, int *f
 			vd->signalquit = TRUE;
 			return ret;
 		}
-	
+  
+  const int TIMEOUT = 5; // select timeout interval
+
 	FD_ZERO(&rdset);
 	FD_SET(vd->fd, &rdset);
-	timeout.tv_sec = 1; // 1 sec timeout 
+	timeout.tv_sec = TIMEOUT; // 1 sec timeout 
 	timeout.tv_usec = 0;
 	// select - wait for data or timeout
 	ret = select(vd->fd + 1, &rdset, NULL, NULL, &timeout);
